@@ -2,7 +2,12 @@ using UnityEngine;
 
 public class FallState : IState
 {
-    public void OnEnter() => Debug.Log("FallEnter");
+    IAnimationPlayer animationPlayer;
+    public FallState(IAnimationPlayer animationPlayer)
+    {
+        this.animationPlayer = animationPlayer;
+    }
+    public void OnEnter() => animationPlayer.StartAnimation("Fall");
     public void OnUpdate() => Debug.Log("FallUpdate");
     public void OnFixedUpdate() => Debug.Log("FallFixedUpdate"); 
     public void OnExit() => Debug.Log("FallStateExit");
@@ -10,7 +15,7 @@ public class FallState : IState
     {
         if(Input.GetKey(KeyCode.LeftShift))
         {
-            return new WalkState();
+            return new WalkState(animationPlayer);
         }
         else return this;
     }
