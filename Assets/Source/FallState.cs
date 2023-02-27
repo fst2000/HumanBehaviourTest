@@ -3,20 +3,21 @@ using UnityEngine;
 public class FallState : IState
 {
     IHuman human;
-    IAnimationPlayer animationPlayer;
+    IAnimator animator;
     public FallState(IHuman human)
     {
-        this.animationPlayer = human.AnimationPlayer;
+        this.human = human;
+        this.animator = human.Animator;
     }
-    public void OnEnter() => animationPlayer.StartAnimation("Fall");
+    public void OnEnter() => animator.StartAnimation("Fall");
     public void OnUpdate() => Debug.Log("FallUpdate");
     public void OnFixedUpdate() => Debug.Log("FallFixedUpdate"); 
     public void OnExit() => Debug.Log("FallStateExit");
     public IState NextState()
     {
-        if(Input.GetKey(KeyCode.LeftShift))
+        if(human.IsOnGround())
         {
-            return new WalkState(human);
+            return new LandState(human);
         }
         else return this;
     }

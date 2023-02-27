@@ -1,4 +1,5 @@
 public interface IHuman
 {
-    IAnimationPlayer AnimationPlayer {get;}
+    IAnimator Animator {get;}
+    bool IsOnGround();
 }

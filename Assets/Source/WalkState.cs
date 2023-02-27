@@ -3,13 +3,13 @@ using UnityEngine;
 public class WalkState : IState
 {
     IHuman human;
-    IAnimationPlayer animationPlayer;
+    IAnimator animator;
     public WalkState(IHuman human)
     {
         this.human = human;
-        this.animationPlayer = human.AnimationPlayer;
+        this.animator = human.Animator;
     }
-    public void OnEnter() => animationPlayer.StartAnimation("WalkBlend");
+    public void OnEnter() => animator.StartAnimation("WalkBlend");
     public void OnUpdate() => Debug.Log("WalkUpdate");
     public void OnFixedUpdate() => Debug.Log("WalkFixedUpdate"); 
     public void OnExit()
@@ -18,10 +18,10 @@ public class WalkState : IState
     }
     public IState NextState()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(human.IsOnGround())
         {
-            return new FallState(human);
+            return this;
         }
-        else return this;
+        else return new FallState(human);
     }
 }

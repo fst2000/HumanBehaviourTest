@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class LandState : IState
 {
-    IAnimationPlayer animationPlayer;
+    IAnimator animator;
     IHuman human;
+    IAnimationInfo animationInfo;
     public LandState(IHuman human)
     {
         this.human = human;
-        this.animationPlayer = human.AnimationPlayer;
+        this.animator = human.Animator;
     }
-    public void OnEnter() => animationPlayer.StartAnimation("Land");
+    public void OnEnter() => animationInfo = animator.StartAnimation("Land");
     public void OnUpdate() => Debug.Log("LandUpdate");
     public void OnFixedUpdate() => Debug.Log("LandFixedUpdate"); 
     public void OnExit()
@@ -18,6 +19,10 @@ public class LandState : IState
     }
     public IState NextState()
     {
-        return new WalkState(human);
+        if(animationInfo.isPlaying())
+        {
+            return this;
+        }
+        else return new WalkState(human);
     }
 }
