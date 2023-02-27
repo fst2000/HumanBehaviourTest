@@ -3,9 +3,11 @@ using UnityEngine;
 public class LandState : IState
 {
     IAnimationPlayer animationPlayer;
-    public LandState(IAnimationPlayer animationPlayer)
+    IHuman human;
+    public LandState(IHuman human)
     {
-        this.animationPlayer = animationPlayer;
+        this.human = human;
+        this.animationPlayer = human.AnimationPlayer;
     }
     public void OnEnter() => animationPlayer.StartAnimation("Land");
     public void OnUpdate() => Debug.Log("LandUpdate");
@@ -16,10 +18,6 @@ public class LandState : IState
     }
     public IState NextState()
     {
-        if(Input.GetKeyDown("H"))
-        {
-            return new FallState(animationPlayer);
-        }
-        else return this;
+        return new WalkState(human);
     }
 }

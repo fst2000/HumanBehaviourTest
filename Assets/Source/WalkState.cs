@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class WalkState : IState
 {
+    IHuman human;
     IAnimationPlayer animationPlayer;
-    public WalkState(IAnimationPlayer animationPlayer)
+    public WalkState(IHuman human)
     {
-        this.animationPlayer = animationPlayer;
+        this.human = human;
+        this.animationPlayer = human.AnimationPlayer;
     }
-    public void OnEnter() => animationPlayer.StartAnimation("Land");
-    public void OnUpdate() => Debug.Log("WalkUpdate" + animationPlayer.CheckAnimation("Land"));
+    public void OnEnter() => animationPlayer.StartAnimation("WalkBlend");
+    public void OnUpdate() => Debug.Log("WalkUpdate");
     public void OnFixedUpdate() => Debug.Log("WalkFixedUpdate"); 
     public void OnExit()
     {
@@ -18,7 +20,7 @@ public class WalkState : IState
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            return new FallState(animationPlayer);
+            return new FallState(human);
         }
         else return this;
     }

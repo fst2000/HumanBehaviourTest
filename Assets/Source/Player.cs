@@ -4,14 +4,14 @@ public class Player : IHuman
 {
     GameObject gameObject;
     IState currentState;
-    IAnimationPlayer animationPlayer;
+    public IAnimationPlayer AnimationPlayer {get;}
     public Player(GameObject gameObject, Event updateEvent,Event fixedUpdateEvent)
     {
         this.gameObject = gameObject;
         updateEvent.Subscribe(Update);
         fixedUpdateEvent.Subscribe(FixedUpdate);
-        this.animationPlayer = new HumanAnimationPlayer(gameObject);
-        currentState = new WalkState(animationPlayer);
+        this.AnimationPlayer = new HumanAnimationPlayer(gameObject.GetComponent<Animator>());
+        currentState = new WalkState(this);
     }
     void Update()
     {
