@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class LandState : IState
 {
+    IBoolProducer isOnGround;
     IAnimator animator;
-    IHuman human;
     IAnimationInfo animationInfo;
-    public LandState(IHuman human)
+    IMoveSystem moveSystem;
+    IMovableCollider collider;
+    public LandState(IBoolProducer isOnGround, IAnimator animator, IMoveSystem moveSystem, IMovableCollider collider)
     {
-        this.human = human;
-        this.animator = human.Animator;
+        this.isOnGround = isOnGround;
+        this.animator = animator;
+        this.moveSystem = moveSystem;
+        this.collider = collider;
     }
     public void OnEnter() => animationInfo = animator.StartAnimation("Land");
     public void OnUpdate() => Debug.Log("LandUpdate");
@@ -23,6 +27,6 @@ public class LandState : IState
         {
             return this;
         }
-        else return new WalkState(human);
+        else return new WalkState(isOnGround,animator,moveSystem,collider);
     }
 }

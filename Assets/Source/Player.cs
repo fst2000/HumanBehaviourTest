@@ -5,9 +5,11 @@ public class Player : IHuman
     GameObject gameObject;
     Transform transform;
     Rigidbody rigidbody;
-    CapsuleCollider collider;
     IState currentState;
-    public IAnimator Animator {get;}
+    IAnimator animator;
+    IMoveSystem moveSystem;
+    IMovableCollider collider;
+    IBoolProducer isOnGround;
     public Player(GameObject gameObject, Event updateEvent,Event fixedUpdateEvent)
     {
         this.gameObject = gameObject;
@@ -18,16 +20,15 @@ public class Player : IHuman
         rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-        collider = gameObject.AddComponent<CapsuleCollider>();
-        collider.height = 1.8f;
-        collider.radius = 0.4f;
-        collider.center = new Vector3(0,0.9f,0);
+        collider = new HumanCapsuleCollider(gameObject.AddComponent<CapsuleCollider>());
 
         updateEvent.Subscribe(Update);
         fixedUpdateEvent.Subscribe(FixedUpdate);
 
-        this.Animator = new UnityAnimator(gameObject.GetComponent<Animator>());
-        currentState = new WalkState(this);
+        this.animator = new UnityAnimator(gameObject.GetComponent<Animator>());
+        this.currentState = new WalkState(isOnGround, animator, moveSystem,collider);
+        this.moveSystem = new RigidbodyMoveSystem(rigidbody);
+        this.isOnGround = new HumanIsOnGround(transform,collider);
     }
     void Update()
     {

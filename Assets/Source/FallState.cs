@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class FallState : IState
 {
-    IHuman human;
     IAnimator animator;
-    public FallState(IHuman human)
+    IMovableCollider collider;
+    IBoolProducer isOnGround;
+    IMoveSystem moveSystem;
+    public FallState(IBoolProducer isOnGround, IAnimator animator, IMoveSystem moveSystem, IMovableCollider collider)
     {
-        this.human = human;
-        this.animator = human.Animator;
+        this.isOnGround = isOnGround;
+        this.animator = animator;
+        this.moveSystem = moveSystem;
+        this.collider = collider;
     }
     public void OnEnter() => animator.StartAnimation("Fall");
     public void OnUpdate() => Debug.Log("FallUpdate");
@@ -15,9 +19,9 @@ public class FallState : IState
     public void OnExit() => Debug.Log("FallStateExit");
     public IState NextState()
     {
-        if(human.IsOnGround())
+        if(isOnGround.Get())
         {
-            return new LandState(human);
+            return new LandState(isOnGround,animator,moveSystem,collider);
         }
         else return this;
     }
