@@ -1,15 +1,21 @@
 using UnityEngine;
-
-class RigidbodyMoveSystem : IMoveSystem
+public class RigidBodyMoveSystem : IMoveSystem
 {
     Rigidbody rigidbody;
-    public RigidbodyMoveSystem(Rigidbody rigidbody)
+    Transform transform;
+    IController controller;
+    public RigidBodyMoveSystem(IEvent fixedUpdate, GameObject gameObject, IController controller)
     {
-        this.rigidbody = rigidbody;
+        fixedUpdate.Subscribe(FixedUpdate);
+        this.rigidbody = gameObject.AddComponent<Rigidbody>();
+        this.controller = controller;
+
+        rigidbody.freezeRotation = true;
     }
-    public void Move(Vector3 direction)
+    public void FixedUpdate()
     {
-        float velocityY = rigidbody.velocity.y;
-        rigidbody.velocity = new Vector3(direction.x  * Time.deltaTime,direction.y  * Time.deltaTime + velocityY,direction.z  * Time.deltaTime);
+        Vector2 input = controller.Input();
+        Vector3 direction = new Vector3(input.x,0,input.y);
+        rigidbody.velocity = direction;
     }
 }

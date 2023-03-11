@@ -1,23 +1,21 @@
 using UnityEngine;
 
-public class WalkState : IState
+public class StateWalk : IState
 {
     IAnimator animator;
-    IMovableCollider collider;
     IBoolProducer isOnGround;
     IMoveSystem moveSystem;
-    public WalkState(IBoolProducer isOnGround, IAnimator animator, IMoveSystem moveSystem, IMovableCollider collider)
+
+    float moveSpeed = 5f;
+    public StateWalk(IAnimator animator, IBoolProducer isOnGround, IMoveSystem moveSystem)
     {
-        this.isOnGround = isOnGround;
         this.animator = animator;
+        this.isOnGround = isOnGround;
         this.moveSystem = moveSystem;
-        this.collider = collider;
     }
     public void OnEnter()
     {
         animator.StartAnimation("WalkBlend");
-        collider.Height = 1.8f;
-        collider.Width = 0.4f;
     }
     public void OnUpdate()
     {
@@ -37,6 +35,11 @@ public class WalkState : IState
         {
             return this;
         }
-        else return new FallState(isOnGround,animator,moveSystem,collider);
+        else return new StateWalk(animator, isOnGround, moveSystem);
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
     }
 }

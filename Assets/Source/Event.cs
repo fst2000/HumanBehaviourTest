@@ -2,7 +2,6 @@ using System.Collections.Generic;
 
 public class Event : IEvent
 {
-    public delegate void EventDelegate();
     List<EventDelegate> subscribers = new List<EventDelegate>();
     public void Subscribe(EventDelegate subscriber) => subscribers.Add(subscriber);
     public void Call()

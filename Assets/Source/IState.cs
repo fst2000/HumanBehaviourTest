@@ -5,4 +5,6 @@ public interface IState
     void OnFixedUpdate();
     void OnExit();
     IState NextState();
+
+    float GetMoveSpeed();
 }

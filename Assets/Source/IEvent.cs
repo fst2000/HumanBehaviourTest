@@ -1,4 +1,5 @@
 public interface IEvent
 {
-    void Call();
+    void Subscribe(EventDelegate method);
 }
+public delegate void EventDelegate();
