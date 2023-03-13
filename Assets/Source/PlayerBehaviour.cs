@@ -10,6 +10,7 @@ public class PlayerBehaviour : MonoBehaviour, IHuman
     HumanIsOnGround isOnGround;
     IMoveSystem moveSystem;
     UnityStateHandler stateHandler;
+    new UnityCollider collider;
     [SerializeField] JoystickController moveController;
     void Start()
     {
@@ -19,7 +20,8 @@ public class PlayerBehaviour : MonoBehaviour, IHuman
         animator = new UnityAnimator(gameObject.GetComponent<Animator>());
         isOnGround = new HumanIsOnGround(gameObject.transform);
         moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController);
-        stateHandler = new UnityStateHandler(updateEvent,fixedUpdateEvent, new StateWalk(animator, isOnGround, moveSystem));
+        stateHandler = new UnityStateHandler(updateEvent,fixedUpdateEvent, new HumanWalkState(animator, isOnGround, moveSystem));
+        collider = new UnityCollider(fixedUpdateEvent,gameObject,stateHandler.HumanSize());
     }
     void Update()
     {

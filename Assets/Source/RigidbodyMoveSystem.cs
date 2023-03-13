@@ -15,7 +15,7 @@ public class RigidBodyMoveSystem : IMoveSystem
     public void FixedUpdate()
     {
         Vector2 input = controller.Input();
-        Vector3 direction = new Vector3(input.x,0,input.y);
+        Vector3 direction = new Vector3(input.x,rigidbody.velocity.y,input.y);
         rigidbody.velocity = direction;
     }
 }

@@ -1,17 +1,19 @@
 using UnityEngine;
 
-public class StateWalk : IState
+public class HumanWalkState : IState
 {
     IAnimator animator;
     IBoolProducer isOnGround;
     IMoveSystem moveSystem;
+    IHumanSize humanSize;
 
     float moveSpeed = 5f;
-    public StateWalk(IAnimator animator, IBoolProducer isOnGround, IMoveSystem moveSystem)
+    public HumanWalkState(IAnimator animator, IBoolProducer isOnGround, IMoveSystem moveSystem)
     {
         this.animator = animator;
         this.isOnGround = isOnGround;
         this.moveSystem = moveSystem;
+        humanSize = new FixedHumanSize(1.8f, 0.25f);
     }
     public void OnEnter()
     {
@@ -35,11 +37,12 @@ public class StateWalk : IState
         {
             return this;
         }
-        else return new StateWalk(animator, isOnGround, moveSystem);
+        else return new HumanWalkState(animator, isOnGround, moveSystem);
     }
 
-    public float GetMoveSpeed()
+    public float MoveSpeed()
     {
         return moveSpeed;
     }
+    public IHumanSize HumanSize() => humanSize;
 }

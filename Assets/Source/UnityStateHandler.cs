@@ -21,4 +21,6 @@ public class UnityStateHandler : IStateHandler
     {
         currentState.OnFixedUpdate();
     }
+    public IHumanSize HumanSize() => currentState.HumanSize();
+    public float MoveSpeed() => currentState.MoveSpeed();
 }
