@@ -1,26 +1,17 @@
 public class UnityStateHandler : IStateHandler
 {
     IState currentState;
-    public UnityStateHandler(IEvent update, IEvent fixedUpdate, IState currentState)
+    public UnityStateHandler(IEvent update, IState currentState)
     {
         this.currentState = currentState;
         update.Subscribe(Update);
-        fixedUpdate.Subscribe(FixedUpdate);
     }
     void Update()
     {
-        currentState.OnUpdate();
         if(currentState != currentState.NextState())
         {
-            currentState.OnExit();
             currentState = currentState.NextState();
-            currentState.OnEnter();
         }
     }
-    void FixedUpdate()
-    {
-        currentState.OnFixedUpdate();
-    }
-    public IHumanSize HumanSize() => currentState.HumanSize();
-    public float MoveSpeed() => currentState.MoveSpeed();
+    public IState CurrentState() => currentState;
 }

@@ -4,18 +4,20 @@ public class RigidBodyMoveSystem : IMoveSystem
     Rigidbody rigidbody;
     Transform transform;
     IController controller;
-    public RigidBodyMoveSystem(IEvent fixedUpdate, GameObject gameObject, IController controller)
+    IMoveInfo moveInfo;
+    public RigidBodyMoveSystem(IEvent fixedUpdate, GameObject gameObject, IController controller, IMoveInfo moveInfo)
     {
         fixedUpdate.Subscribe(FixedUpdate);
         this.rigidbody = gameObject.AddComponent<Rigidbody>();
-        this.controller = controller;
-
         rigidbody.freezeRotation = true;
+        this.moveInfo = moveInfo;
+        this.controller = controller;
     }
     public void FixedUpdate()
     {
         Vector2 input = controller.Input();
-        Vector3 direction = new Vector3(input.x,rigidbody.velocity.y,input.y);
+        float moveSpeed = moveInfo.MoveSpeed();
+        Vector3 direction = new Vector3(input.x * moveSpeed,rigidbody.velocity.y,input.y * moveSpeed);
         rigidbody.velocity = direction;
     }
 }

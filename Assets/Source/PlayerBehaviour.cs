@@ -7,6 +7,8 @@ public class PlayerBehaviour : MonoBehaviour, IHuman
     Event updateEvent;
     Event fixedUpdateEvent;
     IAnimator animator;
+    IMoveInfo moveInfo;
+    IHumanSize humanSize;
     HumanIsOnGround isOnGround;
     IMoveSystem moveSystem;
     UnityStateHandler stateHandler;
@@ -19,9 +21,10 @@ public class PlayerBehaviour : MonoBehaviour, IHuman
 
         animator = new UnityAnimator(gameObject.GetComponent<Animator>());
         isOnGround = new HumanIsOnGround(gameObject.transform);
-        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController);
-        stateHandler = new UnityStateHandler(updateEvent,fixedUpdateEvent, new HumanWalkState(animator, isOnGround, moveSystem));
-        collider = new UnityCollider(fixedUpdateEvent,gameObject,stateHandler.HumanSize());
+        IState currentState = new HumanWalkState(updateEvent, fixedUpdateEvent, animator, isOnGround);
+        stateHandler = new UnityStateHandler(updateEvent, currentState);
+        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController, moveInfo);
+        collider = new UnityCollider(fixedUpdateEvent,gameObject,humanSize);
     }
     void Update()
     {

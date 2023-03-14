@@ -1,24 +1,23 @@
 using UnityEngine;
 
-public class HumanWalkState : IState
+public class HumanWalkState : IState,  IHumanSize,  IMoveInfo
 {
+    IEvent update;
+    IEvent fixedUpdate;
     IAnimator animator;
     IBoolProducer isOnGround;
-    IMoveSystem moveSystem;
-    IHumanSize humanSize;
-
-    float moveSpeed = 5f;
-    public HumanWalkState(IAnimator animator, IBoolProducer isOnGround, IMoveSystem moveSystem)
+    public HumanWalkState(IEvent update, IEvent fixedUpdate, IAnimator animator, IBoolProducer isOnGround)
     {
+        update.Subscribe(OnUpdate);
+        fixedUpdate.Subscribe(OnFixedUpdate);
+
         this.animator = animator;
         this.isOnGround = isOnGround;
-        this.moveSystem = moveSystem;
-        humanSize = new FixedHumanSize(1.8f, 0.25f);
-    }
-    public void OnEnter()
-    {
         animator.StartAnimation("WalkBlend");
     }
+    public float Height()=> 1.8f;
+    public float Radius()=> 0.25f;
+    public float MoveSpeed()=> 3f;
     public void OnUpdate()
     {
         Debug.Log("WalkUpdate");
@@ -27,22 +26,12 @@ public class HumanWalkState : IState
     {
         Debug.Log("WalkFixedUpdate"); 
     }
-    public void OnExit()
-    {
-
-    }
     public IState NextState()
     {
         if(isOnGround.Get())
         {
             return this;
         }
-        else return new HumanWalkState(animator, isOnGround, moveSystem);
+        else return new HumanWalkState(update, fixedUpdate, animator, isOnGround);
     }
-
-    public float MoveSpeed()
-    {
-        return moveSpeed;
-    }
-    public IHumanSize HumanSize() => humanSize;
 }
