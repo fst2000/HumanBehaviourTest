@@ -2,16 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerBehaviour : MonoBehaviour, IHuman
+public class PlayerBehaviour : MonoBehaviour
 {
     Event updateEvent;
     Event fixedUpdateEvent;
     IAnimator animator;
-    IMoveInfo moveInfo;
-    IHumanSize humanSize;
     HumanIsOnGround isOnGround;
     IMoveSystem moveSystem;
-    UnityStateHandler stateHandler;
+    IState state;
     new UnityCollider collider;
     [SerializeField] JoystickController moveController;
     void Start()
@@ -21,10 +19,9 @@ public class PlayerBehaviour : MonoBehaviour, IHuman
 
         animator = new UnityAnimator(gameObject.GetComponent<Animator>());
         isOnGround = new HumanIsOnGround(gameObject.transform);
-        IState currentState = new HumanWalkState(updateEvent, fixedUpdateEvent, animator, isOnGround);
-        stateHandler = new UnityStateHandler(updateEvent, currentState);
-        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController, moveInfo);
-        collider = new UnityCollider(fixedUpdateEvent,gameObject,humanSize);
+        state = new HumanStateMachine(new HumanWalkState(animator, isOnGround));  
+        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController, state.Human().MoveInfo());
+        collider = new UnityCollider(fixedUpdateEvent,gameObject,state.Human().HumanSize());
     }
     void Update()
     {
