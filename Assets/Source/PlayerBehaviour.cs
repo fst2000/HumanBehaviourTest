@@ -9,7 +9,7 @@ public class PlayerBehaviour : MonoBehaviour
     IAnimator animator;
     HumanIsOnGround isOnGround;
     IMoveSystem moveSystem;
-    IState state;
+    IHumanState stateMachine;
     new UnityCollider collider;
     [SerializeField] JoystickController moveController;
     void Start()
@@ -19,9 +19,9 @@ public class PlayerBehaviour : MonoBehaviour
 
         animator = new UnityAnimator(gameObject.GetComponent<Animator>());
         isOnGround = new HumanIsOnGround(gameObject.transform);
-        state = new HumanStateMachine(new HumanWalkState(animator, isOnGround));  
-        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController, state.Human().MoveInfo());
-        collider = new UnityCollider(fixedUpdateEvent,gameObject,state.Human().HumanSize());
+        stateMachine = new HumanStateMachine(new HumanWalkState(animator, isOnGround));  
+        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController, stateMachine.Human().MoveInfo());
+        collider = new UnityCollider(fixedUpdateEvent,gameObject,stateMachine.Human().HumanSize());
     }
     void Update()
     {

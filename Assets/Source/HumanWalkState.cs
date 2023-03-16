@@ -1,6 +1,5 @@
-using UnityEngine;
 
-public class HumanWalkState : IState
+public class HumanWalkState : IHumanState
 {
     IAnimator animator;
     IBoolProducer isOnGround;
@@ -13,13 +12,13 @@ public class HumanWalkState : IState
 
         human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new HumanMoveInfo(3f));
     }
-    public IState NextState()
+    public IHumanState NextState()
     {
         if(isOnGround.Get())
         {
             return this;
         }
-        else return new HumanWalkState(animator, isOnGround);
+        else return new HumanFallState(animator, isOnGround);
     }
     public IHuman Human() => human;
 }

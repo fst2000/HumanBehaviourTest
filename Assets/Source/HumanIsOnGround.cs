@@ -9,6 +9,6 @@ public class HumanIsOnGround : IBoolProducer
     }
     public bool Get()
     {
-        return Physics.CheckSphere(transform.position, 0.4f);
+        return Physics.CheckSphere(transform.position, 0.2f);
     }
 }

@@ -1,4 +1,4 @@
-public class HumanStateMachine : IState
+public class HumanStateMachine : IHumanState
 {
     class StateMachineHuman : IHuman
     {
@@ -12,12 +12,12 @@ public class HumanStateMachine : IState
         public IMoveInfo MoveInfo()=> stateMachine.state.Human().MoveInfo();
     }
     IHuman human;
-    IState state;
-    public HumanStateMachine(IState state)
+    IHumanState state;
+    public HumanStateMachine(IHumanState state)
     {
         this.state = state;
         this.human = new StateMachineHuman(this);
     }
-    public IState NextState() => state = state.NextState();
+    public IHumanState NextState() => state = state.NextState();
     public IHuman Human() => human;
 }
