@@ -855,7 +855,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -903,9 +903,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originTransform: {fileID: 209286355}
-  height: 1.8
-  distance: 3
-  smoothness: 0.5
 --- !u!1 &2092649844 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7dc7fee5ce9dacf489ca924df1d60c9e, type: 3}

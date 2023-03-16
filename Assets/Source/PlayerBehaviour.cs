@@ -26,6 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         updateEvent.Call();
+        stateMachine.NextState();
     }
     void FixedUpdate()
     {
