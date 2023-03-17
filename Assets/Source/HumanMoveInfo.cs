@@ -1,9 +1,13 @@
-public class HumanMoveInfo : IMoveInfo
+using UnityEngine;
+public class WalkMoveInfo : IMoveInfo
 {
     float moveSpeed;
-    public HumanMoveInfo(float moveSpeed)
+    IController controller;
+    public WalkMoveInfo(IController controller)
     {
-        this.moveSpeed = moveSpeed;
+        moveSpeed = 3f;
+        this.controller = controller;
     }
-    public float MoveSpeed()=> moveSpeed;
+    public float Speed()=> moveSpeed;
+    public Vector3 Direction()=> new Vector3(controller.Input().x, 0, controller.Input().y);
 }

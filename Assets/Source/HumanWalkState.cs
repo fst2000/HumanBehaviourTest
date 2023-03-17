@@ -4,13 +4,15 @@ public class HumanWalkState : IHumanState
     IAnimator animator;
     IBoolProducer isOnGround;
     IHuman human;
-    public HumanWalkState(IAnimator animator, IBoolProducer isOnGround)
+    IController controller;
+    public HumanWalkState(IAnimator animator, IBoolProducer isOnGround, IController controller)
     {
         this.animator = animator;
         this.isOnGround = isOnGround;
         animator.StartAnimation("WalkBlend");
+        this.controller = controller;
 
-        human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new HumanMoveInfo(3f));
+        human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new WalkMoveInfo(controller));
     }
     public IHumanState NextState()
     {
@@ -18,7 +20,7 @@ public class HumanWalkState : IHumanState
         {
             return this;
         }
-        else return new HumanFallState(animator, isOnGround);
+        else return new HumanFallState(animator, isOnGround, controller);
     }
     public IHuman Human() => human;
 }

@@ -19,8 +19,8 @@ public class PlayerBehaviour : MonoBehaviour
 
         animator = new UnityAnimator(gameObject.GetComponent<Animator>());
         isOnGround = new HumanIsOnGround(gameObject.transform);
-        stateMachine = new HumanStateMachine(new HumanWalkState(animator, isOnGround));  
-        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject, moveController, stateMachine.Human().MoveInfo());
+        stateMachine = new HumanStateMachine(new HumanWalkState(animator, isOnGround, moveController));  
+        moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject,stateMachine.Human().MoveInfo());
         collider = new UnityCollider(fixedUpdateEvent,gameObject,stateMachine.Human().HumanSize());
     }
     void Update()
