@@ -1,6 +1,9 @@
 using UnityEngine;
 public interface IMoveInfo
 {
-    public float Speed();
-    public Vector3 Direction();
+    float MoveSpeed();
+    float RotationSpeed();
+    Vector3 Direction();
+    Quaternion Rotation();
+    
 }

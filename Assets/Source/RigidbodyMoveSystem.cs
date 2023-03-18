@@ -17,6 +17,8 @@ public class RigidBodyMoveSystem : IMoveSystem
     public void FixedUpdate()
     {
         Vector3 gravity = new Vector3(0, rigidbody.velocity.y, 0);
-        rigidbody.velocity = transform.TransformDirection(moveInfo.Direction()) * moveInfo.Speed() + gravity;
+        rigidbody.velocity = transform.TransformDirection(moveInfo.Direction()) * moveInfo.MoveSpeed() + gravity;
+        transform.rotation = Quaternion.LerpUnclamped(Quaternion.identity,moveInfo.Rotation(),moveInfo.RotationSpeed()) * transform.rotation;
     }
+    public Vector3 Velocity()=> rigidbody.velocity;
 }
