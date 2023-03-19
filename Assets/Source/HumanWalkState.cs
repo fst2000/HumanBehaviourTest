@@ -9,9 +9,9 @@ public class HumanWalkState : IHumanState
     {
         this.animator = animator;
         this.isOnGround = isOnGround;
+        this.controller = controller;
         animator.StartAnimation("WalkBlend");
-        animator.SetFloat("WalkBlend", 0f);
-        human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new HumanWalkMoveInfo(controller));
+        human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new HumanWalkMovement(controller));
     }
     public IHumanState NextState()
     {

@@ -3,8 +3,8 @@ public class RigidBodyMoveSystem : IMoveSystem
 {
     Rigidbody rigidbody;
     Transform transform;
-    IMoveInfo moveInfo;
-    public RigidBodyMoveSystem(IEvent fixedUpdate, GameObject gameObject, IMoveInfo moveInfo)
+    IMovement moveInfo;
+    public RigidBodyMoveSystem(IEvent fixedUpdate, GameObject gameObject, IMovement moveInfo)
     {
         fixedUpdate.Subscribe(FixedUpdate);
         this.transform = gameObject.transform;
@@ -17,8 +17,9 @@ public class RigidBodyMoveSystem : IMoveSystem
     public void FixedUpdate()
     {
         Vector3 gravity = new Vector3(0, rigidbody.velocity.y, 0);
-        rigidbody.velocity = transform.TransformDirection(moveInfo.Direction()) * moveInfo.MoveSpeed() + gravity;
-        transform.rotation = Quaternion.LerpUnclamped(Quaternion.identity,moveInfo.Rotation(),moveInfo.RotationSpeed()) * transform.rotation;
+        rigidbody.velocity = transform.TransformDirection(moveInfo.Velocity()) + gravity;
+        transform.rotation = moveInfo.Torque() * transform.rotation;
+        Debug.Log(moveInfo.GetType());
     }
     public Vector3 Velocity()=> rigidbody.velocity;
 }

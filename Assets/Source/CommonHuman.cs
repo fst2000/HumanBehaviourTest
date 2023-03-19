@@ -1,13 +1,13 @@
 public class CommonHuman : IHuman
 {
     IHumanSize size;
-    IMoveInfo moveInfo;
-    public CommonHuman(IHumanSize size, IMoveInfo moveInfo)
+    IMovement moveInfo;
+    public CommonHuman(IHumanSize size, IMovement moveInfo)
     {
         this.size = size;
         this.moveInfo = moveInfo;
     }
     public IHumanSize HumanSize()=> size;
-    public IMoveInfo MoveInfo()=> moveInfo;
+    public IMovement MoveInfo()=> moveInfo;
 
 }

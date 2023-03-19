@@ -14,7 +14,7 @@ public class HumanFallState : IHumanState
         this.controller = controller;
         this.moveSystem = moveSystem;
 
-        human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new HumanFallMoveInfo(controller));
+        human = new CommonHuman(new FixedHumanSize(1.8f,0.25f), new HumanFallMovement());
     }
     public IHumanState NextState()
     {

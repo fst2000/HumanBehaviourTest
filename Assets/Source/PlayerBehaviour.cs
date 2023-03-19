@@ -17,7 +17,7 @@ public class PlayerBehaviour : MonoBehaviour
         updateEvent = new Event();
         fixedUpdateEvent = new Event();
 
-        animator = new UnityAnimator(gameObject.GetComponent<Animator>(), updateEvent);
+        animator = new UnityAnimator(gameObject.GetComponent<Animator>());
         isOnGround = new HumanIsOnGround(gameObject.transform);
         stateMachine = new HumanStateMachine(new HumanWalkState(animator, isOnGround, moveController, moveSystem));  
         moveSystem = new RigidBodyMoveSystem(fixedUpdateEvent, gameObject,stateMachine.Human().MoveInfo());
